@@ -1,0 +1,12 @@
+Super User Django
+-----------------
+user : indra
+pass : 05031998
+
+User POS (Costum)
+-----------------
+user : admin1
+pass : admin123
+
+user : kasir1
+pass : Kasir123
