@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pos_flutter/models/product.dart';
 import 'package:pos_flutter/models/penjualan.dart';
+//import 'package:pos_flutter/models/keranjang_item.dart';
 import 'package:pos_flutter/services/penjualan_service.dart';
 import 'package:pos_flutter/services/product_service.dart';
 import 'package:pos_flutter/services/nota_service.dart';
@@ -9,6 +10,9 @@ import 'package:intl/intl.dart';
 import './laporan_penjualan_screen.dart';
 import './penjualan_list_screen.dart';
 import 'nota_printer.dart';
+//import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+//import 'package:collection/collection.dart';
+
 //import './scan_printer_screen.dart';
 //import './pengaturan_printer_screen.dart';
 
@@ -30,6 +34,9 @@ class _KeranjangScreenState extends State<KeranjangScreen> {
     decimalDigits: 0,
   );
 
+  final FocusNode _scannerFocus = FocusNode();
+  final TextEditingController _scannerController = TextEditingController();
+
   List<Product> produkList = [];
   Product? selectedProduk;
   List<DetailPenjualan> keranjang = [];
@@ -41,6 +48,9 @@ class _KeranjangScreenState extends State<KeranjangScreen> {
     super.initState();
     _loadProduk();
     _jumlahController.addListener(_onJumlahChanged);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      FocusScope.of(context).requestFocus(_scannerFocus);
+    });
   }
 
   @override
@@ -70,6 +80,7 @@ class _KeranjangScreenState extends State<KeranjangScreen> {
         _jumlahController.text = '1';
       });
     }
+    FocusScope.of(context).requestFocus(_scannerFocus);
   }
 
   Future<void> _loadProduk() async {
@@ -85,6 +96,7 @@ class _KeranjangScreenState extends State<KeranjangScreen> {
 
   void _updateTotal() {
     totalHarga = keranjang.fold(0, (sum, item) => sum + item.subtotal);
+    FocusScope.of(context).requestFocus(_scannerFocus);
   }
 
   void _tambahKeKeranjang() {
@@ -167,6 +179,7 @@ class _KeranjangScreenState extends State<KeranjangScreen> {
       selectedProduk = null;
       _updateTotal();
     });
+    FocusScope.of(context).requestFocus(_scannerFocus);
   }
 
   void _kurangiJumlah() {
@@ -176,6 +189,7 @@ class _KeranjangScreenState extends State<KeranjangScreen> {
         _jumlahController.text = jumlah.toString();
       }
     });
+    FocusScope.of(context).requestFocus(_scannerFocus);
   }
 
   void _tambahJumlah() {
@@ -183,6 +197,7 @@ class _KeranjangScreenState extends State<KeranjangScreen> {
       jumlah++;
       _jumlahController.text = jumlah.toString();
     });
+    FocusScope.of(context).requestFocus(_scannerFocus);
   }
 
   void _hitungKembalian(String value) {
@@ -327,6 +342,59 @@ class _KeranjangScreenState extends State<KeranjangScreen> {
       //  ),
       //);
     }
+    FocusScope.of(context).requestFocus(_scannerFocus);
+  }
+
+  void _handleBarcodeScan(String barcode) {
+    final produk =
+        produkList.where((p) => p.kode == barcode).toList().isNotEmpty
+            ? produkList.firstWhere((p) => p.kode == barcode)
+            : null;
+
+    if (produk != null && produk.id != null) {
+      setState(() {
+        final index =
+            keranjang.indexWhere((item) => item.produkKode == produk.kode);
+        if (index != -1) {
+          final existing = keranjang[index];
+          keranjang[index] = DetailPenjualan(
+            produkId: existing.produkId,
+            produkKode: existing.produkKode,
+            produkNama: existing.produkNama,
+            jumlah: existing.jumlah + 1,
+            hargaJual: existing.hargaJual,
+            subtotal: (existing.jumlah + 1) * existing.hargaJual,
+          );
+        } else {
+          keranjang.add(
+            DetailPenjualan(
+              produkId: produk.id!, // pastikan nullable
+              produkKode: produk.kode,
+              produkNama: produk.nama,
+              jumlah: 1,
+              hargaJual: produk.hargaJual,
+              subtotal: produk.hargaJual,
+            ),
+          );
+        }
+        _updateTotal();
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.red, // warna latar belakang
+          content: Text(
+            'Produk tidak ditemukan',
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ), // warna teks
+          ),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    }
   }
 
   @override
@@ -340,6 +408,13 @@ class _KeranjangScreenState extends State<KeranjangScreen> {
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
         actions: [
+          IconButton(
+            icon: Icon(Icons.qr_code_scanner),
+            onPressed: () {
+              FocusScope.of(context).requestFocus(_scannerFocus);
+            },
+            tooltip: 'Scan',
+          ),
           IconButton(
             icon: const Icon(Icons.analytics, color: Colors.black),
             onPressed: () {
@@ -389,19 +464,32 @@ class _KeranjangScreenState extends State<KeranjangScreen> {
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                   children: [
+                    Offstage(
+                      offstage: true, // Tidak terlihat
+                      child: TextField(
+                        focusNode: _scannerFocus,
+                        controller: _scannerController,
+                        onSubmitted: (barcode) {
+                          _handleBarcodeScan(barcode.trim());
+                          _scannerController.clear(); // Reset input
+                          FocusScope.of(context)
+                              .requestFocus(_scannerFocus); // ⬅️ Kunci penting
+                        },
+                      ),
+                    ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(5, 20, 16, 10),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: const [
                           Icon(Icons.shopping_bag,
-                              color: Colors.yellow, size: 26),
+                              color: Colors.yellow, size: 40),
                           SizedBox(width: 8),
                           Text(
                             'Kasir',
                             style: TextStyle(
                               color: Colors.yellow,
-                              fontSize: 22,
+                              fontSize: 40,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -598,17 +686,74 @@ class _KeranjangScreenState extends State<KeranjangScreen> {
                             itemCount: keranjang.length,
                             itemBuilder: (context, index) {
                               final item = keranjang[index];
+                              final qtyController = TextEditingController(
+                                  text: item.jumlah.toString());
+
                               return Card(
                                 color: Colors.grey.shade800,
                                 child: ListTile(
                                   title: Text(
-                                      '${item.produkKode} - ${item.produkNama}',
-                                      style:
-                                          const TextStyle(color: Colors.white)),
-                                  subtitle: Text(
-                                    '${item.jumlah} x ${_rupiahFormat.format(item.hargaJual)} = ${_rupiahFormat.format(item.subtotal)}',
-                                    style:
-                                        const TextStyle(color: Colors.white70),
+                                    '${item.produkKode} - ${item.produkNama}',
+                                    style: const TextStyle(color: Colors.white),
+                                  ),
+                                  subtitle: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          const Text('Qty: ',
+                                              style: TextStyle(
+                                                  color: Colors.white70)),
+                                          SizedBox(
+                                            width: 50,
+                                            child: TextField(
+                                              controller: qtyController,
+                                              keyboardType:
+                                                  TextInputType.number,
+                                              style: const TextStyle(
+                                                  color: Colors.white),
+                                              decoration: const InputDecoration(
+                                                isDense: true,
+                                                contentPadding:
+                                                    EdgeInsets.symmetric(
+                                                        vertical: 4,
+                                                        horizontal: 6),
+                                                border: OutlineInputBorder(),
+                                              ),
+                                              onSubmitted: (value) {
+                                                final newQty =
+                                                    int.tryParse(value) ??
+                                                        item.jumlah;
+                                                if (newQty > 0) {
+                                                  setState(() {
+                                                    keranjang[index] =
+                                                        DetailPenjualan(
+                                                      produkId: item.produkId,
+                                                      produkKode:
+                                                          item.produkKode,
+                                                      produkNama:
+                                                          item.produkNama,
+                                                      jumlah: newQty,
+                                                      hargaJual: item.hargaJual,
+                                                      subtotal: item.hargaJual *
+                                                          newQty,
+                                                    );
+                                                    _updateTotal();
+                                                  });
+                                                }
+                                              },
+                                            ),
+                                          ),
+                                          const SizedBox(width: 8),
+                                          Text(
+                                            'x ${_rupiahFormat.format(item.hargaJual)} = ${_rupiahFormat.format(item.subtotal)}',
+                                            style: const TextStyle(
+                                                color: Colors.white70),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
                                   ),
                                   trailing: IconButton(
                                     icon: const Icon(Icons.delete,
