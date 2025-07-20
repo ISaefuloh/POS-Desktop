@@ -1,0 +1,60 @@
+# ======================
+# PYTHON / DJANGO
+# ======================
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.sqlite3
+*.log
+*.pot
+*.mo
+*.py[cod]
+env/
+venv/
+ENV/
+.env
+.env.*
+.idea/
+.vscode/
+.DS_Store
+
+# Django specific
+db.sqlite3
+media/
+staticfiles/
+
+# ======================
+# FLUTTER
+# ======================
+# Build outputs
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.dart_tool/
+.melos_tool/
+pubspec.lock
+
+# IntelliJ / VS Code
+*.iml
+.android/
+.ios/
+.web/
+windows/
+linux/
+macos/
+.idea/
+.vscode/
+*.log
+
+# ======================
+# SYSTEM FILES
+# ======================
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+*.bak
+*.tmp
+~$*
