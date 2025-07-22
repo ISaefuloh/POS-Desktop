@@ -25,6 +25,13 @@ class _PenjualanListScreenState extends State<PenjualanListScreen> {
   @override
   void initState() {
     super.initState();
+
+    // Atur default filter: hanya hari ini
+    final now = DateTime.now();
+    startDate = DateTime(now.year, now.month, now.day); // hari ini jam 00:00
+    endDate = DateTime(
+        now.year, now.month, now.day, 23, 59, 59); // hari ini jam 23:59
+
     loadPenjualan();
   }
 
@@ -105,8 +112,13 @@ class _PenjualanListScreenState extends State<PenjualanListScreen> {
             icon: const Icon(Icons.refresh, color: Colors.black),
             onPressed: () {
               searchController.clear();
-              startDate = null;
-              endDate = null;
+
+              final now = DateTime.now();
+              startDate =
+                  DateTime(now.year, now.month, now.day); // 00:00 hari ini
+              endDate =
+                  DateTime(now.year, now.month, now.day, 23, 59, 59); // 23:59
+
               loadPenjualan();
             },
           ),
@@ -193,7 +205,7 @@ class _PenjualanListScreenState extends State<PenjualanListScreen> {
                 : filteredList.isEmpty
                     ? const Center(
                         child: Text(
-                          'Tidak ada data penjualan',
+                          'Belum Ada Penjualan Hari Ini',
                           style: TextStyle(color: Colors.white70),
                         ),
                       )

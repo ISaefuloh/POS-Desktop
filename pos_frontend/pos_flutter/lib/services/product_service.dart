@@ -6,14 +6,15 @@ class ProductService {
   //static const String baseUrl = 'http://10.0.2.2:8000/api/produk/';
   //static const String createUrl = 'http://10.0.2.2:8000/api/produk/create/';
 
-  static const String baseUrl = 'http://127.0.0.1:8000/api/produk/';
-  static const String createUrl = 'http://127.0.0.1:8000/api/produk/create/';
+  //static const String baseUrl = 'http://127.0.0.1:8000/api/produk/';
+  //static const String createUrl = 'http://127.0.0.1:8000/api/produk/create/';
 
   //static const String baseUrl = 'http://192.168.5.103:8000/api/produk/';
   //static const String createUrl = 'http://192.168.5.103:8000/api/produk/create/';
 
-  //static const String baseUrl = 'http://100.96.226.112:8000/api/produk/';
-  //static const String createUrl = 'http://100.96.226.112:8000/api/produk/create/';
+  static const String baseUrl = 'http://100.96.226.112:8000/api/produk/';
+  static const String createUrl =
+      'http://100.96.226.112:8000/api/produk/create/';
 
   // GET: Ambil semua produk
   static Future<List<Product>> getAllProducts() async {

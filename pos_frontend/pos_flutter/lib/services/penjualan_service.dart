@@ -5,9 +5,9 @@ import 'package:intl/intl.dart';
 
 class PenjualanService {
   //final String baseUrl = 'http://10.0.2.2:8000/api/';
-  final String baseUrl = 'http://localhost:8000/api/';
+  //final String baseUrl = 'http://localhost:8000/api/';
   //final String baseUrl = 'http://192.168.5.103:8000/api/';
-  //final String baseUrl = 'http://100.96.226.112:8000/api/';
+  final String baseUrl = 'http://100.96.226.112:8000/api/';
 
   Future<Penjualan> createPenjualan(Map<String, dynamic> data) async {
     final response = await http.post(
@@ -36,9 +36,8 @@ class PenjualanService {
           }
 
           // ✅ Tangani error field lain juga
-          final errors = body.entries
-              .map((e) => "${e.key}: ${e.value}")
-              .join('\n');
+          final errors =
+              body.entries.map((e) => "${e.key}: ${e.value}").join('\n');
           throw Exception(errors);
         }
       } catch (e) {
