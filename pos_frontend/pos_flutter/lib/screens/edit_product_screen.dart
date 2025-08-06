@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/product.dart';
 import '../services/product_service.dart';
+import 'package:intl/intl.dart';
 
 class EditProductScreen extends StatefulWidget {
   final Product product;
@@ -17,31 +18,52 @@ class _EditProductScreenState extends State<EditProductScreen> {
   final TextEditingController satuanController = TextEditingController();
   final TextEditingController hargaJualController = TextEditingController();
 
+  late NumberFormat currencyFormat;
+
   @override
   void initState() {
     super.initState();
     final product = widget.product;
+
+    currencyFormat =
+        NumberFormat.currency(locale: 'id_ID', symbol: 'Rp ', decimalDigits: 0);
+
     kodeController.text = product.kode;
     namaController.text = product.nama;
     satuanController.text = product.satuan;
-    hargaJualController.text = product.hargaJual % 1 == 0
-        ? product.hargaJual.toInt().toString()
-        : product.hargaJual.toString();
+    hargaJualController.text = currencyFormat.format(product.hargaJual);
+
+    hargaJualController.addListener(() {
+      final text = hargaJualController.text.replaceAll(RegExp(r'[^0-9]'), '');
+      if (text.isNotEmpty) {
+        final value = int.parse(text);
+        final newText = currencyFormat.format(value);
+        if (hargaJualController.text != newText) {
+          hargaJualController.value = TextEditingValue(
+            text: newText,
+            selection: TextSelection.collapsed(offset: newText.length),
+          );
+        }
+      }
+    });
   }
 
   void submitUpdate() async {
+    final rawText = hargaJualController.text.replaceAll(RegExp(r'[^0-9]'), '');
+    final harga = double.tryParse(rawText) ?? 0.0;
+
     final updatedProduct = Product(
       id: widget.product.id,
       kode: kodeController.text,
       nama: namaController.text,
       satuan: satuanController.text,
-      hargaJual: double.tryParse(hargaJualController.text) ?? 0.0,
+      hargaJual: harga,
     );
 
     final success = await ProductService.updateProduct(updatedProduct);
 
     if (success && mounted) {
-      Navigator.pop(context, true); // kembali dan trigger refresh
+      Navigator.pop(context, true);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Gagal memperbarui produk')),

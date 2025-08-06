@@ -3,8 +3,8 @@ import 'package:http/http.dart' as http;
 
 class NotaService {
   //final String baseUrl = 'http://10.0.2.2:8000/api/';
-  //final String baseUrl = 'http://localhost:8000/api/';
-  final String baseUrl = 'http://100.96.226.112:8000/api/';
+  final String baseUrl = 'http://localhost:8000/api/';
+  //final String baseUrl = 'http://100.96.226.112:8000/api/';
   //final String baseUrl = 'http://192.168.5.103:8000/api/';
 
   // ... fungsi createPenjualan yang sudah ada ...

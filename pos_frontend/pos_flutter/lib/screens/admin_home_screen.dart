@@ -73,6 +73,16 @@ class AdminHomeScreen extends StatelessWidget {
                       label: 'Laporan Stok',
                       onTap: () => context.push('/laporanstok'),
                     ),
+                    _buildMenuCard(
+                      icon: Icons.undo,
+                      label: 'Retur Penjualan',
+                      onTap: () => context.push('/retur-penjualan'),
+                    ),
+                    _buildMenuCard(
+                      icon: Icons.redo,
+                      label: 'Retur Pembelian',
+                      onTap: () => context.push('/retur-pembelian'),
+                    ),
                   ],
                 ),
               ),

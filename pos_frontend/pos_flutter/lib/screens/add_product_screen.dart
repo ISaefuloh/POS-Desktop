@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../models/product.dart';
 import '../services/product_service.dart';
+import 'package:intl/intl.dart';
 
 class AddProductScreen extends StatefulWidget {
   const AddProductScreen({super.key});
@@ -16,12 +17,38 @@ class _AddProductScreenState extends State<AddProductScreen> {
   final satuanController = TextEditingController();
   final hargaJualController = TextEditingController();
 
+  final formatter =
+      NumberFormat.currency(locale: 'id_ID', symbol: 'Rp ', decimalDigits: 0);
+
+  @override
+  void initState() {
+    super.initState();
+    hargaJualController.addListener(_formatHarga);
+  }
+
+  void _formatHarga() {
+    final text = hargaJualController.text.replaceAll(RegExp(r'[^0-9]'), '');
+    if (text.isEmpty) return;
+
+    final number = int.parse(text);
+    final newText = formatter.format(number);
+
+    if (hargaJualController.text != newText) {
+      hargaJualController.value = TextEditingValue(
+        text: newText,
+        selection: TextSelection.collapsed(offset: newText.length),
+      );
+    }
+  }
+
   void submit() async {
     final product = Product(
       kode: kodeController.text,
       nama: namaController.text,
       satuan: satuanController.text,
-      hargaJual: double.tryParse(hargaJualController.text) ?? 0.0,
+      hargaJual: double.tryParse(
+              hargaJualController.text.replaceAll(RegExp(r'[^0-9]'), '')) ??
+          0.0,
     );
 
     final success = await ProductService.createProduct(product);

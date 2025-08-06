@@ -1,6 +1,5 @@
 from django.urls import path
-from . import views
-
+from . import views 
 urlpatterns = [
     path('users/', views.list_users),
     path('users/create/', views.create_user),
@@ -26,5 +25,18 @@ urlpatterns = [
 
     # Laporan Stok
     path('laporan-stok/', views.laporan_stok, name='laporan_stok'),
+
+    # Retur
+    path('penjualan/<str:nomor_nota>/produk-terjual/', views.produk_terjual_by_nota),
+    path('pembelian/<str:nomor_btb>/produk-dibeli/', views.produk_dibeli_by_btb),
+
+    path('retur-penjualan/', views.simpan_retur_penjualan),
+    path('retur-pembelian/', views.simpan_retur_pembelian),
+
+    path('penjualan/<str:nomor_nota>/detail-retur/', views.detail_penjualan_retur),
+    path('pembelian/<str:nomor_btb>/detail-retur/', views.detail_pembelian_retur),
+
+    path('retur-penjualan-list/', views.ReturPenjualanListView.as_view()),
+    path('retur-pembelian-list/', views.ReturPembelianListView.as_view()),
 ]
 

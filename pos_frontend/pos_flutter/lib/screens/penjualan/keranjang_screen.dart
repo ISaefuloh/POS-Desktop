@@ -409,7 +409,7 @@ class _KeranjangScreenState extends State<KeranjangScreen> {
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.qr_code_scanner),
+            icon: Icon(Icons.barcode_reader, color: Colors.black),
             onPressed: () {
               FocusScope.of(context).requestFocus(_scannerFocus);
             },

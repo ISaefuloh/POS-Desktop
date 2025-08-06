@@ -73,7 +73,7 @@ class _LaporanPembelianScreenState extends State<LaporanPembelianScreen> {
         centerTitle: true,
         actions: [
           IconButton(
-            icon: const Icon(Icons.date_range),
+            icon: const Icon(Icons.date_range, color: Colors.black),
             onPressed: () => _selectDateRange(context),
             tooltip: 'Filter Tanggal',
           ),

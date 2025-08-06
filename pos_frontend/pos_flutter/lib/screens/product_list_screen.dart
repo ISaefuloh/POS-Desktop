@@ -3,6 +3,13 @@ import '../models/product.dart';
 import '../services/product_service.dart';
 import 'add_product_screen.dart';
 import 'edit_product_screen.dart';
+import 'package:intl/intl.dart';
+
+String formatRupiah(int number) {
+  final format =
+      NumberFormat.currency(locale: 'id_ID', symbol: 'Rp ', decimalDigits: 0);
+  return format.format(number);
+}
 
 class ProductListScreen extends StatefulWidget {
   const ProductListScreen({super.key});
@@ -186,7 +193,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Text(
-                                'Rp ${p.hargaJual.toStringAsFixed(0)}',
+                                formatRupiah(p.hargaJual.toInt()),
                                 style: const TextStyle(color: Colors.yellow),
                               ),
                               IconButton(

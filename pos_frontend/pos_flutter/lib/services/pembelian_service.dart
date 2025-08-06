@@ -5,9 +5,9 @@ import '../models/pembelian.dart';
 
 class PembelianService {
   //static const String baseUrl = 'http://10.0.2.2:8000/api/pembelian';
-  //static const String baseUrl = 'http://localhost:8000/api/pembelian';
+  static const String baseUrl = 'http://localhost:8000/api/pembelian';
   //static const String baseUrl = 'http://192.168.5.103:8000/api/pembelian';
-  static const String baseUrl = 'http://100.96.226.112:8000/api/pembelian';
+  //static const String baseUrl = 'http://100.96.226.112:8000/api/pembelian';
 
   // Otomatis sesuaikan base URL tergantung platform
   //static String get baseUrl {

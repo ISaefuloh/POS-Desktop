@@ -8,6 +8,8 @@ import 'package:pos_flutter/screens/product_list_screen.dart';
 import 'package:pos_flutter/screens/pembelian/pembelian_list_screen.dart';
 import 'package:pos_flutter/screens/penjualan/keranjang_screen.dart';
 import 'package:pos_flutter/screens/user_list_screen.dart';
+import 'package:pos_flutter/screens/retur/add_retur_penjualan_screen.dart';
+import 'package:pos_flutter/screens/retur/add_retur_pembelian_screen.dart';
 import '../services/auth_service.dart';
 
 final GoRouter router = GoRouter(
@@ -64,6 +66,14 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/users',
       builder: (context, state) => UserListScreen(),
+    ),
+    GoRoute(
+      path: '/retur-penjualan',
+      builder: (context, state) => ReturPenjualanScreen(),
+    ),
+    GoRoute(
+      path: '/retur-pembelian',
+      builder: (context, state) => ReturPembelianScreen(),
     ),
   ],
 );

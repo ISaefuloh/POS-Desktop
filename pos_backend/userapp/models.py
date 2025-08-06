@@ -3,6 +3,7 @@ from django.db import transaction
 from django.core.exceptions import ValidationError
 from django.db import models, transaction
 from django.utils.timezone import now
+from django.db.models import Sum
 
 class User(models.Model):
     ROLE_CHOICES = (
@@ -145,3 +146,125 @@ class KartuStok(models.Model):
     jumlah = models.IntegerField()
     sumber = models.CharField(max_length=100)
     keterangan = models.TextField(blank=True, null=True)
+
+
+###### RETUR ######
+
+class ReturPenjualan(models.Model):
+    penjualan = models.ForeignKey(Penjualan, on_delete=models.CASCADE)
+    tanggal = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Retur dari {self.penjualan.nomor_nota}"
+
+
+class DetailReturPenjualan(models.Model):
+    retur = models.ForeignKey(ReturPenjualan, on_delete=models.CASCADE, related_name='detail_retur_penjualan')
+    produk = models.ForeignKey(Produk, on_delete=models.CASCADE)
+    jumlah = models.PositiveIntegerField()
+    harga_jual = models.DecimalField(max_digits=15, decimal_places=2)
+
+    # ⬇️ Tambahkan di sini
+    keterangan = models.TextField(blank=True, null=True)
+
+    def clean(self):
+        # validasi retur tidak melebihi yang dijual
+        total_terjual = DetailPenjualan.objects.filter(
+            penjualan=self.retur.penjualan,
+            produk=self.produk
+        ).aggregate(Sum('jumlah'))['jumlah__sum'] or 0
+
+        total_diretur = DetailReturPenjualan.objects.filter(
+            retur__penjualan=self.retur.penjualan,
+            produk=self.produk
+        ).aggregate(total=Sum('jumlah'))['total'] or 0
+
+        if self.jumlah + total_diretur > total_terjual:
+            raise ValidationError("Jumlah retur melebihi jumlah yang dijual.")
+        
+    def save(self, *args, **kwargs):
+        is_new = self._state.adding  # tangkap status sebelum simpan
+    
+        self.full_clean()
+        if not self.harga_jual:
+            detail = DetailPenjualan.objects.filter(
+                penjualan=self.retur.penjualan,
+                produk=self.produk
+            ).first()
+            if detail:
+                self.harga_jual = detail.harga_jual
+    
+        super().save(*args, **kwargs)
+    
+        if is_new:
+            KartuStok.objects.create(
+                produk=self.produk,
+                jenis='masuk',
+                jumlah=self.jumlah,
+                sumber=f"ReturPenjualan-{self.retur.id}",
+                keterangan=f"Retur dari nota {self.retur.penjualan.nomor_nota}"
+            )
+
+
+    #def save(self, *args, **kwargs):
+    #    self.full_clean()
+    #    if not self.harga_jual:
+    #        detail = DetailPenjualan.objects.filter(
+    #            penjualan=self.retur.penjualan,
+    #            produk=self.produk
+    #        ).first()
+    #        if detail:
+    #            self.harga_jual = detail.harga_jual
+    #    super().save(*args, **kwargs)
+    #    if self._state.adding:
+    #        KartuStok.objects.create(
+    #            produk=self.produk,
+    #            jenis='masuk',
+    #            jumlah=self.jumlah,
+    #            sumber=f"ReturPenjualan-{self.retur.id}",
+    #            keterangan=f"Retur dari nota {self.retur.penjualan.nomor_nota}"
+    #        )
+
+class ReturPembelian(models.Model):
+    pembelian = models.ForeignKey(Pembelian, on_delete=models.CASCADE)
+    tanggal = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Retur dari {self.pembelian.nomor_btb}"
+
+class DetailReturPembelian(models.Model):
+    retur = models.ForeignKey(ReturPembelian, on_delete=models.CASCADE, related_name='detail_retur_pembelian')
+    produk = models.ForeignKey(Produk, on_delete=models.CASCADE)
+    jumlah = models.PositiveIntegerField()
+    harga_beli = models.DecimalField(max_digits=15, decimal_places=2)
+    keterangan = models.TextField(blank=True, null=True)
+
+    def clean(self):
+        total_dibeli = DetailPembelian.objects.filter(
+            pembelian=self.retur.pembelian, produk=self.produk
+        ).aggregate(models.Sum('jumlah'))['jumlah__sum'] or 0
+
+        total_diretur = DetailReturPembelian.objects.filter(
+            retur__pembelian=self.retur.pembelian, produk=self.produk
+        ).exclude(id=self.id).aggregate(models.Sum('jumlah'))['jumlah__sum'] or 0
+
+        if self.jumlah + total_diretur > total_dibeli:
+            raise ValidationError("Jumlah retur melebihi jumlah yang dibeli.")
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        if not self.harga_beli:
+            detail = DetailPembelian.objects.filter(
+                pembelian=self.retur.pembelian, produk=self.produk
+            ).first()
+            if detail:
+                self.harga_beli = detail.harga_beli
+        super().save(*args, **kwargs)
+        if self._state.adding:
+            KartuStok.objects.create(
+                produk=self.produk,
+                jenis='keluar',
+                jumlah=self.jumlah,
+                sumber=f"ReturPembelian-{self.retur.id}",
+                keterangan=f"Retur dari BTB {self.retur.pembelian.nomor_btb}"
+            )
