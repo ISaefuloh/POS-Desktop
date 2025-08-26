@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import '../../models/penjualan.dart';
 import '../../services/penjualan_service.dart';
 import './penjualan_detail_screen.dart';
+import './laporan_penjualan_screen.dart';
 
 class PenjualanListScreen extends StatefulWidget {
   const PenjualanListScreen({Key? key}) : super(key: key);
@@ -101,13 +102,23 @@ class _PenjualanListScreenState extends State<PenjualanListScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: Colors.yellow[700],
+        backgroundColor: Colors.yellow,
         title: const Text(
           'Kidz Electrical',
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
         actions: [
+          IconButton(
+            icon: const Icon(Icons.analytics, color: Colors.black),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => LaporanPenjualanScreen()),
+              );
+            },
+            tooltip: 'Laporan Penjualan',
+          ),
           IconButton(
             icon: const Icon(Icons.refresh, color: Colors.black),
             onPressed: () {
@@ -162,11 +173,11 @@ class _PenjualanListScreenState extends State<PenjualanListScreen> {
                     fillColor: Colors.grey[850],
                     prefixIcon: const Icon(Icons.search, color: Colors.yellow),
                     enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.yellow.shade700),
+                      borderSide: BorderSide(color: Colors.yellow),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.yellow.shade700),
+                      borderSide: BorderSide(color: Colors.yellow),
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
@@ -220,7 +231,7 @@ class _PenjualanListScreenState extends State<PenjualanListScreen> {
                             color: Colors.grey[900],
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
-                              side: BorderSide(color: Colors.yellow.shade700),
+                              side: BorderSide(color: Colors.yellow),
                             ),
                             child: ListTile(
                               contentPadding: const EdgeInsets.symmetric(

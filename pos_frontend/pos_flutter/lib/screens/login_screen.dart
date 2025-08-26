@@ -72,15 +72,15 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(Icons.point_of_sale,
-                        size: 72, color: Colors.amberAccent),
+                    const Icon(Icons.account_circle,
+                        size: 100, color: Colors.yellow),
                     const SizedBox(height: 16),
                     const Text(
                       'Kidz Electrical',
                       style: TextStyle(
                         fontSize: 26,
                         fontWeight: FontWeight.bold,
-                        color: Colors.amber,
+                        color: Colors.yellow,
                         letterSpacing: 1.5,
                         shadows: [
                           Shadow(
@@ -117,7 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 16),
-                          backgroundColor: Colors.amber,
+                          backgroundColor: Colors.yellow,
                           foregroundColor: Colors.black,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
@@ -138,16 +138,16 @@ class _LoginScreenState extends State<LoginScreen> {
   InputDecoration _inputDecoration(String label, IconData icon) {
     return InputDecoration(
       labelText: label,
-      labelStyle: const TextStyle(color: Colors.amber),
-      prefixIcon: Icon(icon, color: Colors.amber),
+      labelStyle: const TextStyle(color: Colors.yellow),
+      prefixIcon: Icon(icon, color: Colors.yellow),
       filled: true,
       fillColor: Colors.black.withOpacity(0.4),
       enabledBorder: OutlineInputBorder(
-        borderSide: const BorderSide(color: Colors.amber),
+        borderSide: const BorderSide(color: Colors.yellow),
         borderRadius: BorderRadius.circular(12),
       ),
       focusedBorder: OutlineInputBorder(
-        borderSide: const BorderSide(color: Colors.amber, width: 2),
+        borderSide: const BorderSide(color: Colors.yellow, width: 2),
         borderRadius: BorderRadius.circular(12),
       ),
     );

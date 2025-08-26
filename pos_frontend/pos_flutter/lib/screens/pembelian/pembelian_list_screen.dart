@@ -108,7 +108,7 @@ class _PembelianListScreenState extends State<PembelianListScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: Colors.yellow[700],
+        backgroundColor: Colors.yellow,
         title: const Text(
           'Kidz Electrical',
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
@@ -141,7 +141,7 @@ class _PembelianListScreenState extends State<PembelianListScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.yellow[700],
+        backgroundColor: Colors.yellow,
         child: const Icon(Icons.add, color: Colors.black),
         onPressed: () async {
           final result = await Navigator.push(
@@ -189,11 +189,11 @@ class _PembelianListScreenState extends State<PembelianListScreen> {
                     fillColor: Colors.grey[850],
                     prefixIcon: const Icon(Icons.search, color: Colors.yellow),
                     enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.yellow.shade700),
+                      borderSide: BorderSide(color: Colors.yellow),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.yellow.shade700),
+                      borderSide: BorderSide(color: Colors.yellow),
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
@@ -247,7 +247,7 @@ class _PembelianListScreenState extends State<PembelianListScreen> {
                             color: Colors.grey[900],
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
-                              side: BorderSide(color: Colors.yellow.shade700),
+                              side: BorderSide(color: Colors.yellow),
                             ),
                             child: ListTile(
                               contentPadding: const EdgeInsets.symmetric(

@@ -43,11 +43,11 @@ class _AddUserScreenState extends State<AddUserScreen> {
       filled: true,
       fillColor: Colors.grey[850],
       enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.yellow.shade700),
+        borderSide: BorderSide(color: Colors.yellow),
         borderRadius: BorderRadius.circular(10),
       ),
       focusedBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.yellow.shade700),
+        borderSide: BorderSide(color: Colors.yellow),
         borderRadius: BorderRadius.circular(10),
       ),
     );
@@ -58,7 +58,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
     return Scaffold(
         backgroundColor: Colors.black,
         appBar: AppBar(
-          backgroundColor: Colors.yellow[700],
+          backgroundColor: Colors.yellow,
           title: const Text(
             'Kidz Electrical',
             style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
@@ -122,11 +122,11 @@ class _AddUserScreenState extends State<AddUserScreen> {
                         contentPadding: const EdgeInsets.symmetric(
                             horizontal: 12, vertical: 10),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.yellow.shade700),
+                          borderSide: BorderSide(color: Colors.yellow),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.yellow.shade700),
+                          borderSide: BorderSide(color: Colors.yellow),
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
@@ -163,7 +163,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                       style: TextStyle(color: Colors.black, fontSize: 16),
                     ),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.yellow[700],
+                      backgroundColor: Colors.yellow,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),

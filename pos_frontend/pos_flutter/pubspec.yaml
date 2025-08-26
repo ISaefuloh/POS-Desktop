@@ -66,6 +66,10 @@ dependencies:
 
   collection: ^1.18.0
 
+  marquee: ^2.3.0
+
+  fl_chart: ^0.69.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

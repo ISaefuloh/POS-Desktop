@@ -15,20 +15,16 @@ class CurrencyInputFormatter extends TextInputFormatter {
   TextEditingValue formatEditUpdate(
       TextEditingValue oldValue, TextEditingValue newValue) {
     if (newValue.text.isEmpty) {
-      return TextEditingValue(
-        text: '',
-        selection: TextSelection.collapsed(offset: 0),
-      );
+      return const TextEditingValue(
+          text: '', selection: TextSelection.collapsed(offset: 0));
     }
 
     String digitsOnly =
         newValue.text.replaceAll('Rp', '').replaceAll(RegExp(r'[^0-9]'), '');
 
     if (digitsOnly.isEmpty) {
-      return TextEditingValue(
-        text: '',
-        selection: TextSelection.collapsed(offset: 0),
-      );
+      return const TextEditingValue(
+          text: '', selection: TextSelection.collapsed(offset: 0));
     }
 
     final number = int.parse(digitsOnly);
@@ -59,7 +55,7 @@ class _TambahPembelianScreenState extends State<TambahPembelianScreen> {
   bool isSaving = false;
 
   final formatRupiah =
-      NumberFormat.currency(locale: 'id_ID', symbol: 'Rp', decimalDigits: 0);
+      NumberFormat.currency(locale: 'id_ID', symbol: 'Rp ', decimalDigits: 0);
 
   @override
   void initState() {
@@ -72,6 +68,21 @@ class _TambahPembelianScreenState extends State<TambahPembelianScreen> {
     setState(() {
       allProducts = result;
     });
+  }
+
+  InputDecoration _inputDecoration(String label) {
+    return InputDecoration(
+      labelText: label,
+      labelStyle: const TextStyle(color: Colors.yellow),
+      enabledBorder: OutlineInputBorder(
+        borderSide: const BorderSide(color: Colors.yellow),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderSide: const BorderSide(color: Colors.yellow, width: 2),
+        borderRadius: BorderRadius.circular(12),
+      ),
+    );
   }
 
   void _tambahDetail() {
@@ -175,189 +186,176 @@ class _TambahPembelianScreenState extends State<TambahPembelianScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Tambah Pembelian'),
-        backgroundColor: Colors.yellow.shade700,
-        elevation: 0,
-      ),
       backgroundColor: Colors.black,
-      body: Padding(
+      appBar: AppBar(
+        backgroundColor: Colors.yellow,
+        title: const Text(
+          'Kidz Electrical',
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        ),
+        centerTitle: true,
+      ),
+      body: ListView(
         padding: const EdgeInsets.all(16),
-        child: ListView(
-          children: [
-            Container(
-              color: Colors.black,
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              child: Center(
-                child: Text(
-                  'Kidz Electrical',
+        children: [
+          // Judul halaman
+          Padding(
+            padding: const EdgeInsets.only(bottom: 16),
+            child: Row(
+              children: const [
+                Icon(Icons.add_shopping_cart, color: Colors.yellow, size: 26),
+                SizedBox(width: 8),
+                Text(
+                  'Tambah Pembelian',
                   style: TextStyle(
-                    fontSize: 20,
+                    color: Colors.yellow,
+                    fontSize: 22,
                     fontWeight: FontWeight.bold,
-                    color: Colors.yellow.shade700,
                   ),
                 ),
-              ),
+              ],
             ),
-            const SizedBox(height: 16),
-            Card(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12)),
-              elevation: 3,
-              color: Colors.grey.shade800,
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text('Informasi Pembelian',
-                        style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white)),
-                    const SizedBox(height: 10),
-                    TextField(
-                      controller: supplierController,
-                      style: TextStyle(color: Colors.white),
-                      decoration: InputDecoration(
-                        labelText: 'Supplier (opsional)',
-                        labelStyle: TextStyle(color: Colors.yellow.shade700),
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                  ],
+          ),
+
+          // Supplier
+          TextField(
+            controller: supplierController,
+            style: const TextStyle(color: Colors.white),
+            decoration: _inputDecoration('Supplier (opsional)'),
+          ),
+          const SizedBox(height: 16),
+
+          // Dropdown Produk
+          DropdownSearch<Product>(
+            items: allProducts,
+            itemAsString: (item) => '${item.kode} - ${item.nama}',
+            selectedItem: selectedProduct,
+            onChanged: (value) {
+              setState(() => selectedProduct = value);
+            },
+            popupProps: PopupProps.menu(
+              showSearchBox: true,
+              searchFieldProps: TextFieldProps(
+                style: const TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                  hintText: 'Cari produk...',
+                  hintStyle: const TextStyle(color: Colors.white70),
+                  filled: true,
+                  fillColor: Colors.grey.shade900,
+                  border: const OutlineInputBorder(),
                 ),
               ),
+              menuProps: MenuProps(
+                backgroundColor: Colors.grey.shade900,
+              ),
+              itemBuilder: (context, item, isSelected) {
+                return Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color:
+                        isSelected ? Colors.grey.shade700 : Colors.transparent,
+                  ),
+                  child: Text(
+                    '${item.kode} - ${item.nama}',
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                );
+              },
             ),
-            const SizedBox(height: 16),
-            Card(
+            dropdownDecoratorProps: DropDownDecoratorProps(
+              dropdownSearchDecoration: _inputDecoration('Pilih Produk'),
+              baseStyle: const TextStyle(color: Colors.white),
+            ),
+          ),
+          const SizedBox(height: 16),
+
+          // Jumlah
+          TextField(
+            controller: jumlahController,
+            keyboardType: TextInputType.number,
+            style: const TextStyle(color: Colors.white),
+            decoration: _inputDecoration('Jumlah'),
+          ),
+          const SizedBox(height: 16),
+
+          // Harga Beli
+          TextField(
+            controller: hargaBeliController,
+            keyboardType: TextInputType.number,
+            inputFormatters: [CurrencyInputFormatter()],
+            style: const TextStyle(color: Colors.white),
+            decoration: _inputDecoration('Harga Beli (Rp)'),
+          ),
+          const SizedBox(height: 16),
+
+          // Tombol Tambah Detail
+          ElevatedButton.icon(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.yellow,
+              foregroundColor: Colors.black,
+              padding: const EdgeInsets.symmetric(vertical: 16),
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12)),
-              elevation: 3,
-              color: Colors.grey.shade800,
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text('Tambah Barang',
-                        style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white)),
-                    const SizedBox(height: 10),
-                    DropdownSearch<Product>(
-                      items: allProducts,
-                      itemAsString: (item) => '${item.kode} - ${item.nama}',
-                      selectedItem: selectedProduct,
-                      onChanged: (value) {
-                        setState(() => selectedProduct = value);
-                      },
-                      popupProps: PopupProps.menu(
-                        showSearchBox: true,
-                        searchFieldProps: TextFieldProps(
-                          style: const TextStyle(color: Colors.white),
-                          decoration: InputDecoration(
-                            hintText: 'Cari produk...',
-                            hintStyle: const TextStyle(color: Colors.white70),
-                            filled: true,
-                            fillColor: Colors.grey.shade900,
-                            border: const OutlineInputBorder(),
-                          ),
-                        ),
-                        menuProps: MenuProps(
-                          backgroundColor: Colors.grey.shade900,
-                        ),
-                        itemBuilder: (context, item, isSelected) {
-                          return Container(
-                            padding: const EdgeInsets.all(12),
-                            decoration: BoxDecoration(
-                              color: isSelected
-                                  ? Colors.grey.shade700
-                                  : Colors.transparent,
-                            ),
-                            child: Text(
-                              '${item.kode} - ${item.nama}',
-                              style: const TextStyle(color: Colors.white),
-                            ),
-                          );
-                        },
-                      ),
-                      dropdownDecoratorProps: DropDownDecoratorProps(
-                        dropdownSearchDecoration: InputDecoration(
-                          labelText: 'Pilih Produk',
-                          labelStyle: TextStyle(color: Colors.yellow.shade700),
-                          border: OutlineInputBorder(),
-                        ),
-                        baseStyle: const TextStyle(color: Colors.white),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    TextField(
-                      controller: jumlahController,
-                      keyboardType: TextInputType.number,
-                      style: TextStyle(color: Colors.white),
-                      decoration: InputDecoration(
-                        labelText: 'Jumlah',
-                        labelStyle: TextStyle(color: Colors.yellow.shade700),
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    TextField(
-                      controller: hargaBeliController,
-                      keyboardType: TextInputType.number,
-                      inputFormatters: [CurrencyInputFormatter()],
-                      style: TextStyle(color: Colors.white),
-                      decoration: InputDecoration(
-                        labelText: 'Harga Beli (Rp)',
-                        labelStyle: TextStyle(color: Colors.yellow.shade700),
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    ElevatedButton.icon(
-                      onPressed: _tambahDetail,
-                      icon: const Icon(Icons.add),
-                      label: const Text('Tambah ke Daftar'),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.yellow.shade700,
-                        foregroundColor: Colors.black,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8)),
-                      ),
-                    ),
-                  ],
-                ),
+                borderRadius: BorderRadius.circular(12),
               ),
             ),
-            const SizedBox(height: 16),
-            const Text('Daftar Barang:',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold, color: Colors.white)),
-            const SizedBox(height: 8),
-            ...detailList.asMap().entries.map((entry) {
-              int index = entry.key;
-              var item = entry.value;
-              return Card(
-                color: Colors.grey.shade800,
-                elevation: 2,
-                child: ListTile(
-                  title:
-                      Text(item['nama'], style: TextStyle(color: Colors.white)),
-                  subtitle: Text(
-                      'Jumlah: ${item['jumlah']} | Harga: ${formatRupiah.format(item['harga_beli'])}',
-                      style: TextStyle(color: Colors.white)),
-                  trailing: IconButton(
+            onPressed: _tambahDetail,
+            icon: const Icon(Icons.add),
+            label: const Text('Tambah ke Daftar'),
+          ),
+          const SizedBox(height: 20),
+
+          // Daftar Barang
+          const Text(
+            'Daftar Barang:',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(height: 8),
+
+          ...detailList.asMap().entries.map((entry) {
+            int index = entry.key;
+            var item = entry.value;
+            return Container(
+              margin: const EdgeInsets.symmetric(vertical: 4),
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.yellow),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Text(
+                      '${item['nama']} (x${item['jumlah']})\n${formatRupiah.format(item['harga_beli'])}',
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  IconButton(
                     icon: const Icon(Icons.delete, color: Colors.red),
                     onPressed: () => _hapusDetail(index),
                   ),
+                ],
+              ),
+            );
+          }),
+
+          const SizedBox(height: 30),
+
+          // Tombol Simpan
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.yellow,
+                foregroundColor: Colors.black,
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
                 ),
-              );
-            }),
-            const SizedBox(height: 20),
-            ElevatedButton.icon(
-              onPressed: isSaving ? null : _simpanPembelian,
+              ),
               icon: const Icon(Icons.save),
               label: isSaving
                   ? const SizedBox(
@@ -369,18 +367,10 @@ class _TambahPembelianScreenState extends State<TambahPembelianScreen> {
                       ),
                     )
                   : const Text('Simpan Pembelian'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.yellow.shade700,
-                foregroundColor: Colors.black,
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                textStyle:
-                    const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12)),
-              ),
+              onPressed: isSaving ? null : _simpanPembelian,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

@@ -7,6 +7,7 @@ import 'package:pos_flutter/models/retur_penjualan.dart';
 
 // Ganti dengan base URL server kamu
 const String baseUrl = 'http://localhost:8000/api';
+//const String baseUrl = 'http://100.96.226.112:8000/api';
 
 // Ambil data produk berdasarkan nomor nota penjualan
 Future<List<ProdukRetur>> fetchDetailReturPenjualan(String nomorNota) async {
@@ -122,7 +123,8 @@ Future<List<ReturPenjualan>> fetchReturPenjualanList({
         tanggalAkhir.toIso8601String().substring(0, 10);
   }
 
-  final uri = Uri.parse('http://localhost:8000/api/retur-penjualan-list/')
+  final uri = Uri.parse('http://100.96.226.112:8000/api/retur-penjualan-list/')
+      //final uri = Uri.parse('http://localhost:8000/api/retur-penjualan-list/')
       .replace(queryParameters: queryParams.isEmpty ? null : queryParams);
 
   final response = await http.get(uri);

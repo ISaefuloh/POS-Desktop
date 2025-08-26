@@ -84,7 +84,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.yellow[700],
+        backgroundColor: Colors.yellow,
         title: const Text(
           'Kidz Electrical',
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
@@ -128,7 +128,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                 ElevatedButton(
                   onPressed: submitUpdate,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.yellow[700],
+                    backgroundColor: Colors.yellow,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -163,11 +163,13 @@ class _EditProductScreenState extends State<EditProductScreen> {
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.yellow.shade700),
+          borderSide:
+              BorderSide(color: const Color.fromARGB(255, 251, 247, 45)),
           borderRadius: BorderRadius.circular(8),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.yellow.shade700),
+          borderSide:
+              BorderSide(color: const Color.fromARGB(255, 251, 247, 45)),
           borderRadius: BorderRadius.circular(8),
         ),
       ),

@@ -39,7 +39,7 @@ class _DetailPembelianScreenState extends State<DetailPembelianScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 251, 192, 45),
+        backgroundColor: Colors.yellow,
         title: const Text('Detail Pembelian',
             style: TextStyle(color: Color.fromARGB(255, 0, 0, 0))),
         iconTheme: const IconThemeData(color: Color.fromARGB(255, 0, 0, 0)),

@@ -135,7 +135,7 @@ class _PenjualanDetailScreenState extends State<PenjualanDetailScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 251, 192, 45),
+        backgroundColor: Colors.yellow,
         title: const Text('Detail Penjualan',
             style: TextStyle(color: Colors.black)),
         iconTheme: const IconThemeData(color: Colors.black),

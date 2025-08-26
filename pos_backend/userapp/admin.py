@@ -1,5 +1,5 @@
 from django.contrib import admin
-from . models import User, Produk, ReturPenjualan, DetailReturPenjualan, ReturPembelian, DetailReturPembelian
+from . models import User, Produk, ReturPenjualan, DetailReturPenjualan, ReturPembelian, DetailReturPembelian, Pembelian, Penjualan, DetailPembelian, DetailPenjualan
 # Register your models here.
 
 class DetailReturPenjualanInline(admin.TabularInline):
@@ -20,5 +20,9 @@ class ReturPembelianAdmin(admin.ModelAdmin):
 
 admin.site.register(User)
 admin.site.register(Produk)
+admin.site.register(Pembelian)
+admin.site.register(Penjualan)
+admin.site.register(DetailPembelian)
+admin.site.register(DetailPenjualan)
 admin.site.register(ReturPenjualan, ReturPenjualanAdmin)
 admin.site.register(ReturPembelian, ReturPembelianAdmin)

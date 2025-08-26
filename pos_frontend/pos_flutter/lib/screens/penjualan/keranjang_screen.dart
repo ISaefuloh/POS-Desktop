@@ -108,7 +108,7 @@ class _KeranjangScreenState extends State<KeranjangScreen> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          backgroundColor: Colors.yellow.shade700, // Latar belakang kuning
+          backgroundColor: Colors.yellow, // Latar belakang kuning
           title: Text('Stok Tidak Cukup'),
           content: Text(
             'Stok produk \'${selectedProduk!.nama}\' tidak cukup (tersedia: $stokTersedia, diminta: $jumlah)',
@@ -123,8 +123,7 @@ class _KeranjangScreenState extends State<KeranjangScreen> {
               ),
               child: Text(
                 'OK',
-                style: TextStyle(
-                    color: Colors.yellow.shade700), // Tulisan OK kuning
+                style: TextStyle(color: Colors.yellow), // Tulisan OK kuning
               ),
             ),
           ],
@@ -140,7 +139,7 @@ class _KeranjangScreenState extends State<KeranjangScreen> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          backgroundColor: Colors.yellow.shade700, // Latar belakang kuning
+          backgroundColor: Colors.yellow, // Latar belakang kuning
           title: Text('Produk Sudah Ada'),
           content: Text('Produk sudah ada di keranjang.'),
           actions: [
@@ -153,8 +152,7 @@ class _KeranjangScreenState extends State<KeranjangScreen> {
               ),
               child: Text(
                 'OK',
-                style: TextStyle(
-                    color: Colors.yellow.shade700), // Tulisan OK kuning
+                style: TextStyle(color: Colors.yellow), // Tulisan OK kuning
               ),
             ),
           ],
@@ -290,8 +288,7 @@ class _KeranjangScreenState extends State<KeranjangScreen> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child:
-                  Text('OK', style: TextStyle(color: Colors.yellow.shade700)),
+              child: Text('OK', style: TextStyle(color: Colors.yellow)),
             ),
           ],
         ),
@@ -308,7 +305,7 @@ class _KeranjangScreenState extends State<KeranjangScreen> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          backgroundColor: Colors.yellow.shade700,
+          backgroundColor: Colors.yellow,
           title: Text('Gagal Menyimpan'),
           content: Text(
             e.toString().replaceFirst('Exception: ', ''),
@@ -318,7 +315,7 @@ class _KeranjangScreenState extends State<KeranjangScreen> {
               onPressed: () => Navigator.pop(context),
               style: TextButton.styleFrom(
                 backgroundColor: Colors.black, // latar tombol
-                foregroundColor: Color(0xFFFFD700), // teks/ikon kuning (emas)
+                foregroundColor: Colors.yellow, // teks/ikon kuning (emas)
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
@@ -402,7 +399,7 @@ class _KeranjangScreenState extends State<KeranjangScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: Colors.yellow[700],
+        backgroundColor: Colors.yellow,
         title: const Text(
           'Kidz Electrical',
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
@@ -509,7 +506,9 @@ class _KeranjangScreenState extends State<KeranjangScreen> {
                             Text(
                               'Pilih Produk',
                               style: TextStyle(
-                                  color: Colors.white70, fontSize: 16),
+                                  color: Colors.yellow,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold),
                             ),
                             const SizedBox(height: 8),
                             DropdownSearch<Product>(
@@ -526,17 +525,17 @@ class _KeranjangScreenState extends State<KeranjangScreen> {
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8),
                                     borderSide:
-                                        BorderSide(color: Colors.grey.shade600),
+                                        BorderSide(color: Colors.yellow),
                                   ),
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8),
                                     borderSide:
-                                        BorderSide(color: Colors.grey.shade600),
+                                        BorderSide(color: Colors.yellow),
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8),
-                                    borderSide: BorderSide(
-                                        color: Colors.yellow.shade700),
+                                    borderSide:
+                                        BorderSide(color: Colors.yellow),
                                   ),
                                   filled: true,
                                   fillColor: Colors.grey.shade800,
@@ -556,8 +555,8 @@ class _KeranjangScreenState extends State<KeranjangScreen> {
                                     hintStyle:
                                         const TextStyle(color: Colors.white54),
                                     focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Colors.yellow.shade700),
+                                      borderSide:
+                                          BorderSide(color: Colors.yellow),
                                     ),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
@@ -572,8 +571,7 @@ class _KeranjangScreenState extends State<KeranjangScreen> {
                                     padding: const EdgeInsets.all(16),
                                     decoration: BoxDecoration(
                                       color: isSelected
-                                          ? Colors.yellow.shade700
-                                              .withOpacity(0.2)
+                                          ? Colors.yellow.withOpacity(0.2)
                                           : Colors.grey.shade800,
                                       borderRadius: BorderRadius.circular(8),
                                     ),
@@ -617,13 +615,13 @@ class _KeranjangScreenState extends State<KeranjangScreen> {
                                       ),
                                       enabledBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(8),
-                                        borderSide: BorderSide(
-                                            color: Colors.grey.shade600),
+                                        borderSide:
+                                            BorderSide(color: Colors.yellow),
                                       ),
                                       focusedBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(8),
-                                        borderSide: BorderSide(
-                                            color: Colors.yellow.shade700),
+                                        borderSide:
+                                            BorderSide(color: Colors.yellow),
                                       ),
                                       labelText: 'Jumlah',
                                       labelStyle: const TextStyle(
@@ -637,14 +635,14 @@ class _KeranjangScreenState extends State<KeranjangScreen> {
                                   children: [
                                     IconButton(
                                       icon: Icon(Icons.add_circle_outline,
-                                          color: Colors.yellow.shade700),
+                                          color: Colors.yellow),
                                       onPressed: _tambahJumlah,
                                       padding: EdgeInsets.zero,
                                       constraints: const BoxConstraints(),
                                     ),
                                     IconButton(
                                       icon: Icon(Icons.remove_circle_outline,
-                                          color: Colors.yellow.shade700),
+                                          color: Colors.yellow),
                                       onPressed: _kurangiJumlah,
                                       padding: EdgeInsets.zero,
                                       constraints: const BoxConstraints(),
@@ -784,7 +782,7 @@ class _KeranjangScreenState extends State<KeranjangScreen> {
                               const Text(
                                 'Total Harga:',
                                 style: TextStyle(
-                                    color: Colors.white,
+                                    color: Colors.yellow,
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold),
                               ),
@@ -811,13 +809,11 @@ class _KeranjangScreenState extends State<KeranjangScreen> {
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8),
-                                borderSide:
-                                    BorderSide(color: Colors.grey.shade600),
+                                borderSide: BorderSide(color: Colors.yellow),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8),
-                                borderSide:
-                                    BorderSide(color: Colors.yellow.shade700),
+                                borderSide: BorderSide(color: Colors.yellow),
                               ),
                               labelText: 'Pembayaran',
                               labelStyle: TextStyle(color: Colors.white70),
@@ -879,13 +875,11 @@ class _KeranjangScreenState extends State<KeranjangScreen> {
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8),
-                                borderSide:
-                                    BorderSide(color: Colors.grey.shade600),
+                                borderSide: BorderSide(color: Colors.yellow),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8),
-                                borderSide:
-                                    BorderSide(color: Colors.yellow.shade700),
+                                borderSide: BorderSide(color: Colors.yellow),
                               ),
                               filled: true,
                               fillColor: Colors.grey.shade700,

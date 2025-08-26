@@ -58,7 +58,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: Colors.yellow[700],
+        backgroundColor: Colors.yellow,
         title: const Text(
           'Kidz Electrical',
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
@@ -251,7 +251,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         SnackBar(
-                                          backgroundColor: Colors.yellow[700],
+                                          backgroundColor: Colors.yellow,
                                           content: Text(
                                             'Produk "${p.nama}" berhasil dihapus',
                                             style: const TextStyle(

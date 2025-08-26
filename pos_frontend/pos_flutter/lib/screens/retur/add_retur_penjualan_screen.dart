@@ -90,7 +90,7 @@ class _ReturPenjualanScreenState extends State<ReturPenjualanScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: Colors.yellow[700],
+        backgroundColor: Colors.yellow,
         title: const Text(
           'Kidz Electrical',
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
@@ -147,14 +147,14 @@ class _ReturPenjualanScreenState extends State<ReturPenjualanScreen> {
                       filled: true,
                       fillColor: Colors.grey[850],
                       border: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.yellow.shade700),
+                        borderSide: BorderSide(color: Colors.yellow),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.yellow.shade700),
+                        borderSide: BorderSide(color: Colors.yellow),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.yellow.shade700),
+                        borderSide: BorderSide(color: Colors.yellow),
                       ),
                     ),
                   ),
@@ -192,7 +192,7 @@ class _ReturPenjualanScreenState extends State<ReturPenjualanScreen> {
                       margin: const EdgeInsets.symmetric(vertical: 8),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
-                        side: BorderSide(color: Colors.yellow.shade700),
+                        side: BorderSide(color: Colors.yellow),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(16),
@@ -232,8 +232,8 @@ class _ReturPenjualanScreenState extends State<ReturPenjualanScreen> {
                                           : null,
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(10),
-                                        borderSide: BorderSide(
-                                            color: Colors.yellow.shade700),
+                                        borderSide:
+                                            BorderSide(color: Colors.yellow),
                                       ),
                                     ),
                                     onChanged: (val) {
@@ -257,8 +257,8 @@ class _ReturPenjualanScreenState extends State<ReturPenjualanScreen> {
                                       fillColor: Colors.grey[850],
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(10),
-                                        borderSide: BorderSide(
-                                            color: Colors.yellow.shade700),
+                                        borderSide:
+                                            BorderSide(color: Colors.yellow),
                                       ),
                                     ),
                                     onChanged: (val) {
@@ -287,7 +287,7 @@ class _ReturPenjualanScreenState extends State<ReturPenjualanScreen> {
                     icon: const Icon(Icons.send),
                     label: const Text('Kirim Retur'),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.yellow[700],
+                      backgroundColor: Colors.yellow,
                       foregroundColor: Colors.black,
                       padding: const EdgeInsets.symmetric(
                         horizontal: 32,

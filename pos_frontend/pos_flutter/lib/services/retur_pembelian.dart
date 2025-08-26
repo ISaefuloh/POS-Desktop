@@ -4,7 +4,8 @@ import 'package:pos_flutter/models/produk_retur_pembelian.dart';
 import 'package:pos_flutter/models/riwayat_retur.dart';
 import 'package:pos_flutter/models/retur_pembelian.dart';
 
-const String baseUrl = 'http://localhost:8000/api';
+//const String baseUrl = 'http://localhost:8000/api';
+const String baseUrl = 'http://100.96.226.112:8000/api';
 
 // Ambil data produk pembelian berdasarkan nomor BTB
 Future<List<ProdukReturPembelian>> fetchDetailReturPembelian(

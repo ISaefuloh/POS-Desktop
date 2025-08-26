@@ -1,5 +1,7 @@
 from django.urls import path
 from . import views 
+from . import views_dashboard
+
 urlpatterns = [
     path('users/', views.list_users),
     path('users/create/', views.create_user),
@@ -38,5 +40,8 @@ urlpatterns = [
 
     path('retur-penjualan-list/', views.ReturPenjualanListView.as_view()),
     path('retur-pembelian-list/', views.ReturPembelianListView.as_view()),
+
+    # Dashboard
+    path('dashboard-summary/', views_dashboard.dashboard_summary, name='dashboard-summary'),
 ]
 
